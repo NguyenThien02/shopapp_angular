@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ export class RegisterComponent {
   isAccepted: boolean = false;
   dateOfBirth: Date;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private router: Router, private userService: UserService) {
     this.phone = "0384503232";
     this.password = "12345678";
     this.retypePassword = "12345678";
@@ -39,7 +39,6 @@ export class RegisterComponent {
       `fullName: ${this.fullName}`;
     // alert(message);
     debugger
-    const apiUrl = "http://localhost:8080/api/v1/users/register";
     const registerData = {
       "fullname": this.fullName,
       "phone_number": this.phone,
@@ -51,9 +50,7 @@ export class RegisterComponent {
       "google_account_id": 0,
       "role_id": 1
     }
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    this.http.post(apiUrl, registerData, {headers},)
-    .subscribe({
+    this.userService.register(this.userService).subscribe({
       next: (response: any) => {
         debugger
         this.router.navigate(['/login']);
