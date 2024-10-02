@@ -1,5 +1,7 @@
-import { Component, ViewChild } from '@angular/core'; 
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,13 +19,13 @@ export class RegisterComponent {
   isAccepted: boolean = false;
   dateOfBirth: Date;
 
-  constructor() {
-    this.phone;
-    this.password;
-    this.retypePassword;
-    this.fullName;
-    this.address;
-    this.isAccepted;
+  constructor(private http: HttpClient, private router: Router) {
+    this.phone = "0384503232";
+    this.password = "12345678";
+    this.retypePassword = "12345678";
+    this.fullName = "nguyen thien";
+    this.address = "Thanh Hoa";
+    this.isAccepted = true;
     this.dateOfBirth = new Date();
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
   }
@@ -35,22 +37,49 @@ export class RegisterComponent {
   register() {
     const message = `phone: ${this.phone}` +
       `fullName: ${this.fullName}`;
-
-    alert(message);
+    // alert(message);
+    debugger
+    const apiUrl = "http://localhost:8080/api/v1/users/register";
+    const registerData = {
+      "fullname": this.fullName,
+      "phone_number": this.phone,
+      "address": this.address,
+      "password": this.password,
+      "retype_password": this.retypePassword,
+      "date_of_birth": this.dateOfBirth,
+      "facebook_account_id": 0,
+      "google_account_id": 0,
+      "role_id": 1
+    }
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this.http.post(apiUrl, registerData, {headers},)
+    .subscribe({
+      next: (response: any) => {
+        debugger
+        this.router.navigate(['/login']);
+      },
+      complete: () => {
+        debugger
+      },
+      error: (error: any) => {   
+        //xử lý lỗi nếu có
+        alert(`Cannot register, error: ${error.error}`)      
+      }
+    })
   }
 
   //how to check password match ?
-  checkPasswordsMatch() {    
+  checkPasswordsMatch() {
     if (this.password !== this.retypePassword) {
       this.registerForm.form.controls['retypePassword']
-            .setErrors({ 'passwordMismatch': true });
+        .setErrors({ 'passwordMismatch': true });
     } else {
       this.registerForm.form.controls['retypePassword'].setErrors(null);
     }
   }
 
   //Kiểm tra đủ 18 tuổi chưa
-  checkAge(){
+  checkAge() {
     if (this.dateOfBirth) {
       const today = new Date();
       const birthDate = new Date(this.dateOfBirth);
