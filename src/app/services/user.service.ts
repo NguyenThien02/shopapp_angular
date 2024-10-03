@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterDTO } from '../dtos/users/register.dto';
-import { LoginDTO } from '../dtos/users/login.dot';
+import { LoginDTO } from '../dtos/users/login.dto';
 import { environment } from '../environments/environment';
 
 @Injectable({

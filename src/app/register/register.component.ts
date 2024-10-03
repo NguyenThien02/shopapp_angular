@@ -12,7 +12,7 @@ import { RegisterDTO } from '../dtos/users/register.dto';
 
 export class RegisterComponent {
   @ViewChild('registerForm') registerForm!: NgForm;
-  phone: string;
+  phoneNumber: string;
   password: string;
   retypePassword: string;
   fullName: string;
@@ -21,7 +21,7 @@ export class RegisterComponent {
   dateOfBirth: Date;
 
   constructor(private router: Router, private userService: UserService) {
-    this.phone = "";
+    this.phoneNumber = "";
     this.password = "";
     this.retypePassword = "";
     this.fullName = "";
@@ -31,8 +31,8 @@ export class RegisterComponent {
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
   }
 
-  onPhoneChange() {
-    console.log(`Phone typed: ${this.phone}`);
+  onPhoneNumberChange() {
+    console.log(`Phone typed: ${this.phoneNumber}`);
   }
 
   register() {
@@ -42,7 +42,7 @@ export class RegisterComponent {
     debugger
     const registerDTO: RegisterDTO = {
       "fullname": this.fullName,
-      "phone_number": this.phone,
+      "phone_number": this.phoneNumber,
       "address": this.address,
       "password": this.password,
       "retype_password": this.retypePassword,
