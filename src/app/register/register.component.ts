@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { RegisterDTO } from '../dtos/register.dto';
 
 @Component({
   selector: 'app-register',
@@ -11,20 +12,20 @@ import { Router } from '@angular/router';
 
 export class RegisterComponent {
   @ViewChild('registerForm') registerForm!: NgForm;
-  phone: string = '';
-  password: string = '';
-  retypePassword: string = '';
-  fullName: string = '';
-  address: string = '';
-  isAccepted: boolean = false;
+  phone: string;
+  password: string;
+  retypePassword: string;
+  fullName: string;
+  address: string;
+  isAccepted: boolean;
   dateOfBirth: Date;
 
   constructor(private router: Router, private userService: UserService) {
-    this.phone = "0384503232";
-    this.password = "12345678";
-    this.retypePassword = "12345678";
-    this.fullName = "nguyen thien";
-    this.address = "Thanh Hoa";
+    this.phone = "";
+    this.password = "";
+    this.retypePassword = "";
+    this.fullName = "";
+    this.address = "";
     this.isAccepted = true;
     this.dateOfBirth = new Date();
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
@@ -35,11 +36,11 @@ export class RegisterComponent {
   }
 
   register() {
-    const message = `phone: ${this.phone}` +
-      `fullName: ${this.fullName}`;
+    // const message = `phone: ${this.phone}` +
+    //   `fullName: ${this.fullName}`;
     // alert(message);
     debugger
-    const registerData = {
+    const registerDTO: RegisterDTO = {
       "fullname": this.fullName,
       "phone_number": this.phone,
       "address": this.address,
@@ -50,7 +51,7 @@ export class RegisterComponent {
       "google_account_id": 0,
       "role_id": 1
     }
-    this.userService.register(this.userService).subscribe({
+    this.userService.register(registerDTO).subscribe({
       next: (response: any) => {
         debugger
         this.router.navigate(['/login']);
