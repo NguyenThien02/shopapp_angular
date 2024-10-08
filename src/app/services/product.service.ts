@@ -7,16 +7,20 @@ import { Product } from "../models/product";
 @Injectable({
     providedIn: 'root'
 })
-export class ProductService{
+export class ProductService {
     private apiGetProducts = `${environment.apiBaseUrl}/products`;
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient) { }
 
-    getProducts(page: number, limit: number): Observable<Product[]>{
+    getProducts(keyword: string, categoryId: number,
+        page: number, limit: number
+    ): Observable<Product[]> {
         const params = new HttpParams()
+            .set('keyword', keyword)
+            .set('category_id', categoryId)
             .set('page', page.toString())
             .set('limit', limit.toString());
         return this.http.get<Product[]>(this.apiGetProducts, { params });
-
     }
+    
 }
