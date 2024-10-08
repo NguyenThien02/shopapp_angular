@@ -51,11 +51,7 @@ export class LoginComponent {
   }
 
   login() {
-    const message = `phone: ${this.phoneNumber}` +
-      `password: ${this.password}`;
-    //alert(message);
     debugger
-
     const loginDTO: LoginDTO = {
       phone_number: this.phoneNumber,
       password: this.password,
