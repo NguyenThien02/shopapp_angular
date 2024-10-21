@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/app/environments/environment';
 import { Product } from 'src/app/models/product';
 import { ProductImage } from 'src/app/models/product.images';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -16,9 +17,12 @@ export class DetailProductComponent implements OnInit{
   product?: Product;
   currentImageIndex: number = 0;
   quantity: number = 1;
+  isPressedAddToCart:boolean = false;
   constructor(
     private productService: ProductService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private cartService: CartService,
   ){}
 
   ngOnInit() {
@@ -51,16 +55,30 @@ export class DetailProductComponent implements OnInit{
         console.error('Invalid productId:', idParam);
       }      
     }
-    
-    thumbnailClick(index: number) {
+
+    increaseQuantity(): void {
       debugger
-      // Gọi khi một thumbnail được bấm
-      this.currentImageIndex = index; // Cập nhật currentImageIndex
-    }  
-    // getTotalPrice(): number {
-    //   if (this.product) {
-    //     return this.product.price * this.quantity;
-    //   }
-    //   return 0;
-    // }
+      this.quantity++;
+    }
+    
+    decreaseQuantity(): void {
+      if (this.quantity > 1) {
+        this.quantity--;
+      }
+    }
+    addToCart(): void {
+      debugger
+      this.isPressedAddToCart = true;
+      if (this.product) {
+        this.cartService.addToCart(this.product.id, this.quantity);
+      } else {
+        // Xử lý khi product là null
+        console.error('Không thể thêm sản phẩm vào giỏ hàng vì product là null.');
+      }
+    }    
+    buyNow(): void {      
+      if(this.isPressedAddToCart == false) {
+        this.addToCart();
+      }
+    }   
 }
