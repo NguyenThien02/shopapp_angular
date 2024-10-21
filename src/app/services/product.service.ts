@@ -9,7 +9,7 @@ import { Product } from "../models/product";
 })
 export class ProductService {
     private apiGetProducts = `${environment.apiBaseUrl}/products`;
-    
+
     constructor(private http: HttpClient) { }
 
     getProducts(keyword: string, categoryId: number,
@@ -22,8 +22,12 @@ export class ProductService {
             .set('limit', limit.toString());
         return this.http.get<Product[]>(this.apiGetProducts, { params });
     }
-    getDetailProduct(productId: number){
+    getDetailProduct(productId: number) {
         return this.http.get(`${this.apiGetProducts}/${productId}`);
-      }
-    
+    }
+    getProductsByIds(productIds: number[]): Observable<Product[]>{
+        debugger
+        const params = new HttpParams().set('ids', productIds.join(',')); 
+        return this.http.get<Product[]>(`${this.apiGetProducts}/by-ids`, { params });
+    }
 }

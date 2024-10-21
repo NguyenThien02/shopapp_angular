@@ -42,6 +42,6 @@ import { AppRoutingModule } from './app-routing.module';
       multi: true,
     }
   ],
-  bootstrap: [DetailProductComponent]
+  bootstrap: [OrderConfirmComponent]
 })
 export class AppModule { }

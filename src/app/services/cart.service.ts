@@ -37,5 +37,7 @@ export class CartService {
         this.cart.clear(); // Xóa toàn bộ dữ liệu trong giỏ hàng
         this.saveCartToLocalStorage(); // Lưu giỏ hàng mới vào Local Storage (trống)
     }
-
+    getCart(): Map<number, number> {
+        return this.cart;
+      }
 }
