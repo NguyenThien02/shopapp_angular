@@ -64,7 +64,7 @@ export class LoginComponent {
         if (this.rememberMe) {
           this.tokenService.setToken(token);
         }                
-        //this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
       },
       complete: () => {
         debugger;
